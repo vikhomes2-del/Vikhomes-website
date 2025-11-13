@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vik Homes and Furniture</title>
+  <meta name="description" content="Vik Homes and Furniture - Wholesale MDF boards, marine plywood, and furniture accessories in Abuja." />
+  <style>
+    :root{--blue:#4f86a8;--brown:#8b5a2b;--muted:#f5f7fa;--card:#ffffff}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:var(--muted);color:#222}
+    header{background:linear-gradient(0deg,rgba(255,255,255,0.03),rgba(255,255,255,0.03)),var(--blue);color:#fff;padding:18px 12px;text-align:center}
+    .logo{max-width:120px;height:auto;display:block;margin:0 auto}
+    .tag{font-size:14px;opacity:0.95;margin-top:8px}
+    .shortdesc{font-size:13px;opacity:0.9;margin-top:6px}
+    nav{display:flex;gap:6px;overflow:auto;padding:8px;background:#e9eef3}
+    nav a{flex:1;text-align:center;padding:10px 6px;text-decoration:none;color:var(--blue);font-weight:600}
+    main{padding:14px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+
+    .card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(20,20,20,0.06)}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+    .card h3{margin:8px 0 6px;font-size:16px}
+    .price{font-weight:700;margin-top:6px}
+    .prod-actions{display:flex;gap:8px;margin-top:8px}
+    .btn{background:var(--blue);color:#fff;padding:8px 10px;border-radius:8px;text-decoration:none;display:inline-block;border:none}
+    .btn-outline{background:transparent;border:1px solid #ddd;padding:8px 10px;border-radius:8px}
+
+    .cart-btn{position:fixed;right:16px;bottom:86px;background:var(--brown);color:#fff;padding:12px 14px;border-radius:50px;box-shadow:0 6px 18px rgba(0,0,0,0.12);z-index:50}
+    .whatsapp-float{position:fixed;right:16px;bottom:16px;background:#25D366;color:#fff;padding:12px 14px;border-radius:50px;z-index:60;text-decoration:none}
+
+    /* Checkout modal */
+    .modal{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:70}
+    .modal.open{display:flex}
+    .modal .panel{width:94%;max-width:720px;background:#fff;padding:16px;border-radius:10px}
+    .row{display:flex;gap:8px}
+    label{font-size:13px}
+    input,textarea,select{width:100%;padding:10px;border-radius:6px;border:1px solid #e2e8f0;margin-top:6px}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    table td,table th{padding:8px;border-bottom:1px solid #f2f4f6}
+
+    footer{text-align:center;padding:12px;margin-top:18px;color:#6b7280}
+
+    /* Admin page link small */
+    .admin-link{font-size:12px;text-align:right;color:#666}
+
+    @media(min-width:720px){
+      header{padding:28px}
+      .logo{max-width:140px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Logo: replace logo.png in your repo to change anytime -->
+    <img src="logo.png" alt="Vik Homes logo" class="logo" id="siteLogo" onerror="this.style.display='none'" />
+    <div style="font-weight:700;font-size:20px;margin-top:6px">Vik Homes &amp; Furniture</div>
+    <div class="tag">Premium and Quality</div>
+    <div class="shortdesc">Your trusted supplier for MDF boards and furniture materials.</div>
+  </header>
+
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#about">About</a>
+    <a href="#prices">Updated Prices</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section id="products">
+      <h2>Products</h2>
+      <div class="grid" id="productGrid">
+        <!-- Product cards are injected by JavaScript -->
+      </div>
+    </section>
+
+    <section id="prices" style="margin-top:18px">
+      <h2>Updated Prices</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Product</th><th>Price (₦)</th></tr></thead>
+          <tbody id="pricesTable"></tbody>
+        </table>
+        <p style="margin-top:8px;font-size:13px;color:#444">Prices are updated by the site owner. For bulk orders, contact us on WhatsApp.</p>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top:18px">
+      <h2>About Us</h2>
+      <div class="card">
+        <p>Vik Homes and Furniture was founded to make it simpler for furniture craftsmen and contractors in Nigeria to access reliable, high-quality materials online. After encountering fake MDF boards firsthand, our team committed to supplying only genuine, premium materials at honest prices. We deliver the right products, the right way—every time.</p>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:18px">
+      <h2>Contact</h2>
+      <div class="card">
+        <p><strong>Call:</strong> <a href="tel:09164239619">09164239619</a></p>
+        <p><strong>WhatsApp:</strong> <a href="https://wa.me/2349164239619" target="_blank">Chat on WhatsApp</a></p>
+        <p><strong>Email:</strong> <a href="mailto:vikhomes2@gmail.com">vikhomes2@gmail.com</a></p>
+        <p><strong>Address:</strong> Timber Shade, Gidan Mangoro, Abuja</p>
+      </div>
+    </section>
+
+  </main>
+
+  <a class="cart-btn" id="openCartBtn">Cart (<span id="cartCount">0</span>)</a>
+  <a class="whatsapp-float" id="whFloat" href="https://wa.me/2349164239619" target="_blank">WhatsApp</a>
+
+  <!-- Checkout / Cart Modal -->
+  <div class="modal" id="cartModal">
+    <div class="panel">
+      <h3>Your Cart</h3>
+      <div id="cartContents"></div>
+
+      <h4>Customer details</h4>
+      <div>
+        <label>Full name</label>
+        <input id="custName" placeholder="e.g. John Doe" />
+        <label style="margin-top:8px">Phone number</label>
+        <input id="custPhone" placeholder="e.g. 0916..." />
+        <label style="margin-top:8px">Location / Delivery Address</label>
+        <textarea id="custLocation" rows="2" placeholder="Your area, city and any landmark"></textarea>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1">
+          <strong>Subtotal: ₦<span id="cartSubtotal">0</span></strong>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="payBtn">Send order (WhatsApp)</button>
+          <button class="btn btn-outline" id="emailBtn">Send order (Email)</button>
+          <button class="btn btn-outline" id="closeCart">Close</button>
+        </div>
+      </div>
+
+      <div style="margin-top:10px;font-size:13px">
+        <p>Bank accounts for transfer:</p>
+        <ul>
+          <li><strong>Name:</strong> Nwaeze Oluchi George — <strong>Access Bank</strong> — <strong>0037680780</strong></li>
+          <li><strong>Name:</strong> Nwaeze Oluchi George — <strong>Moniepoint</strong> — <strong>8256457408</strong></li>
+        </ul>
+        <p style="margin-top:6px">Please transfer &amp; send confirmation on WhatsApp after payment.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="max-width:900px;margin:0 auto;padding:10px">
+      <p>Looking for something else? <a href="https://wa.me/2349164239619" target="_blank">Message us on WhatsApp</a></p>
+      <p style="margin-top:8px">© Vik Homes and Furniture</p>
+      <p class="admin-link"><a href="#" id="adminLink">Admin</a></p>
+    </div>
+  </footer>
+
+  <script>
+    /* ----------------- Configuration ----------------- */
+    const OWNER_WH = '2349164239619'; // owner WhatsApp number (no +)
+    // Serverless endpoint: paste your webhook / automation URL (Formspree, Zapier, Make.com webhook, etc.)
+    // This endpoint will receive the order JSON so you can forward it to email/WhatsApp via automation.
+    const SERVERLESS_ENDPOINT = ''; // e.g. 'https://formspree.io/f/yourformid' or 'https://hooks.zapier.com/hooks/catch/...'
+
+    /* ----------------- Bank accounts already shown in modal above ----------------- */
+
+    /* ----------------- Data: products (you can add image files to the repo and name them) ----------------- */
+    const PRODUCTS = [
+      {id:'mdf_15mm',title:'MDF board (4x8ft, 15mm)',price:26000,desc:'Smooth coloured 4x8ft sheet, 15mm thick.',images:['mdf1.jpg','mdf2.jpg']},
+      {id:'marine_plywood',title:'Marine Plywood (4x8ft)',price:22000,desc:'Durable water resistant 4x8ft sheet for construction.',images:['marine1.jpg']},
+      {id:'fluted_panel',title:'Fluted Panel',price:6500,desc:'Narrow decorative panel for interior design.',images:['fluted1.jpg','fluted2.jpg']},
+      {id:'nails_bag',title:'Nails (47lbs bag)',price:34000,desc:'Bags of nails in mixed sizes, 47lbs per bag.',images:[]},
+      {id:'screws_bag',title:'Screws (50-54lbs bag)',price:0,desc:'Bags of screws - contact us for price.',images:[]},
+      {id:'edgetape',title:'Edgetape (roll)',price:18000,desc:'Plastic tape used to cover MDF edges.',images:[]},
+      {id:'gum_15kg',title:'Gum Adhesive (15kg)',price:60000,desc:'Adhesive for edgetape and boards.',images:[]},
+      {id:'gum_3kg',title:'Gum Adhesive (3kg)',price:12000,desc:'Smaller adhesive pack for small jobs.',images:[]},
+      {id:'fluted_gum',title:'Fluted Panel Gum',price:3000,desc:'Adhesive for fluted panels.',images:[]},
+      {id:'handles',title:'Handles',price:0,desc:'Various styles and sizes; ₦500 - ₦20,000',images:[]},
+      {id:'backcover_quarter',title:'1/4 MDF / Backcover',price:0,desc:'A lighter one-side coloured MDF used to cover the back of wardrobes and cabinets.',images:[]},
+      {id:'cabinet_hinges',title:'Cabinet Hinges',price:0,desc:'Hinges used for opening doors and cabinets.',images:[]}
+    ];
+
+    /* ----------------- Simple analytics (local) ----------------- */
+    function bumpStat(key, amount=1){
+      try{
+        const s = JSON.parse(localStorage.getItem('vh_stats')||'{}');
+        s[key] = (s[key]||0) + amount;
+        localStorage.setItem('vh_stats', JSON.stringify(s));
+      }catch(e){}
+    }
+    bumpStat('visits',1);
+
+    /* ----------------- Utilities: localStorage cart ----------------- */
+    function loadCart(){try{return JSON.parse(localStorage.getItem('vh_cart')||'[]')}catch(e){return []}}
+    function saveCart(c){localStorage.setItem('vh_cart',JSON.stringify(c))}
+    function cartCount(){return loadCart().reduce((s,i)=>s+i.qty,0)}
+
+    /* ----------------- Render products ----------------- */
+    const productGrid = document.getElementById('productGrid');
+    const pricesTable = document.getElementById('pricesTable');
+
+    PRODUCTS.forEach(p=>{
+      // card
+      const div = document.createElement('div');div.className='card';
+      const img = document.createElement('img');
+      img.src = p.images && p.images.length? p.images[0] : 'placeholder.png';
+      img.alt = p.title;
+      img.style.cursor = 'pointer';
+      img.onclick = ()=>{openGallery(p); bumpStat('prod_click_'+p.id,1)};
+      div.appendChild(img);
+      const h3 = document.createElement('h3'); h3.textContent=p.title; div.appendChild(h3);
+      const d = document.createElement('div'); d.textContent=p.desc; d.style.fontSize='13px'; div.appendChild(d);
+      const pr = document.createElement('div'); pr.className='price'; pr.textContent = p.price ? '₦' + p.price.toLocaleString() : 'Contact for price'; div.appendChild(pr);
+
+      // gallery note
+      if(p.images && p.images.length>1){
+        const gal = document.createElement('div'); gal.style.marginTop='6px'; gal.style.fontSize='13px'; gal.textContent = p.images.length+' images - replace image files in repo to change'; div.appendChild(gal);
+      }
+
+      const actions = document.createElement('div'); actions.className='prod-actions';
+      const qty = document.createElement('input'); qty.type='number'; qty.min=1; qty.value=1; qty.style.width='70px';
+      const addBtn = document.createElement('button'); addBtn.className='btn'; addBtn.textContent='Add to cart';
+      addBtn.onclick = ()=>{addToCart(p.id,parseInt(qty.value||1)); bumpStat('add_cart_'+p.id,1);}
+      actions.appendChild(qty); actions.appendChild(addBtn);
+      div.appendChild(actions);
+
+      productGrid.appendChild(div);
+
+      // prices table row
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td'); td1.textContent = p.title; tr.appendChild(td1);
+      const td2 = document.createElement('td'); td2.textContent = p.price ? '₦'+p.price.toLocaleString() : 'Contact for price'; tr.appendChild(td2);
+      pricesTable.appendChild(tr);
+    });
+
+    // cart button update
+    function refreshCartIndicator(){document.getElementById('cartCount').textContent = cartCount()}
+    refreshCartIndicator();
+
+    function addToCart(productId,qty){
+      const prod = PRODUCTS.find(p=>p.id===productId); if(!prod) return;
+      const cart = loadCart();
+      const existing = cart.find(i=>i.id===productId);
+      if(existing){existing.qty += qty}else{cart.push({id:prod.id,title:prod.title,price:prod.price||0,qty:qty})}
+      saveCart(cart);refreshCartIndicator();alert('Added to cart');
+    }
+
+    // open cart
+    const cartModal = document.getElementById('cartModal');
+    document.getElementById('openCartBtn').addEventListener('click',()=>{renderCart();cartModal.classList.add('open');});
+    document.getElementById('closeCart').addEventListener('click',()=>cartModal.classList.remove('open'));
+
+    function renderCart(){
+      const cart = loadCart();
+      const container = document.getElementById('cartContents'); container.innerHTML='';
+      if(!cart.length){container.innerHTML='<p>Your cart is empty.</p>';document.getElementById('cartSubtotal').textContent='0';return}
+      const tbl = document.createElement('table');
+      const tbody = document.createElement('tbody');
+      cart.forEach(item=>{
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td'); td1.textContent = item.title + ' x ' + item.qty; tr.appendChild(td1);
+        const td2 = document.createElement('td'); td2.style.textAlign='right'; td2.textContent = item.price ? '₦'+(item.price*item.qty).toLocaleString() : 'Contact'; tr.appendChild(td2);
+        tbody.appendChild(tr);
+      });
+      tbl.appendChild(tbody); container.appendChild(tbl);
+      const subtotal = cart.reduce((s,i)=>s + (i.price||0)*i.qty,0);
+      document.getElementById('cartSubtotal').textContent = subtotal.toLocaleString();
+    }
+
+    // open image gallery modal (simple)
+    function openGallery(product){
+      let html = '<div style="padding:10px"><h3>'+product.title+'</h3>';
+      if(product.images && product.images.length){
+        product.images.forEach(img=>{html += '<img src="'+img+'" style="max-width:100%;display:block;margin-bottom:8px"/>'});
+      } else {
+        html += '<div style="padding:40px;background:#f4f7fa;border-radius:8px;text-align:center">No images - upload '+product.id+' images to your repo</div>';
+      }
+      html += '<p style="font-size:13px;color:#444">'+product.desc+'</p></div>';
+      const w = window.open('','_blank'); w.document.write(html);
+    }
+
+    // send order via WhatsApp and optionally to serverless endpoint
+    document.getElementById('payBtn').addEventListener('click', async ()=>{
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const location = document.getElementById('custLocation').value.trim();
+      const cart = loadCart(); if(!cart.length){alert('Cart is empty');return}
+      if(!name || !phone || !location){alert('Please enter your name, phone and location');return}
+      const subtotal = cart.reduce((s,i)=>s + (i.price||0)*i.qty,0);
+
+      // build message for WhatsApp (encoded)
+      let msg = `New order from ${name}%0APhone: ${phone}%0ALocation: ${location}%0A%0AItems:%0A`;
+      cart.forEach(i=>{msg += `- ${i.title} x ${i.qty} ${i.price? '(' + (i.price*i.qty).toLocaleString() + ')': ''}%0A`});
+      msg += `%0ASubtotal: ₦${subtotal.toLocaleString()}%0A%0APlease transfer to one of the accounts below and send confirmation on WhatsApp:%0A`;
+      msg += `%0A1) Nwaeze Oluchi George - Access Bank - 0037680780%0A2) Nwaeze Oluchi George - Moniepoint - 8256457408%0A`;
+
+      // Open WhatsApp chat (user will send message)
+      const waLink = `https://wa.me/${OWNER_WH}?text=${msg}`;
+      window.open(waLink,'_blank');
+
+      // Also POST order to serverless endpoint if provided (so you get it in email or automation)
+      if(SERVERLESS_ENDPOINT){
+        try{
+          await fetch(SERVERLESS_ENDPOINT, {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+              source:'vikhomes_website',
+              date:new Date().toISOString(),
+              customer:{name,phone,location},
+              items:cart,
+              subtotal,
+              accounts:[
+                {name:'Nwaeze Oluchi George',bank:'Access Bank',account:'0037680780'},
+                {name:'Nwaeze Oluchi George',bank:'Moniepoint',account:'8256457408'}
+              ]
+            })
+          });
+        }catch(e){
+          console.warn('Serverless post failed',e);
+        }
+      }
+
+      // Save order to local 'orders' (for admin viewing on this device)
+      const orders = JSON.parse(localStorage.getItem('vh_orders')||'[]');
+      orders.push({id:'ord_'+Date.now(),name,phone,location,cart,subtotal,date:new Date().toISOString()});
+      localStorage.setItem('vh_orders',JSON.stringify(orders));
+      // clear cart after sending
+      localStorage.removeItem('vh_cart');refreshCartIndicator();cartModal.classList.remove('open');alert('WhatsApp opened — please send the message from your WhatsApp to complete the order. Order has also been sent to the serverless endpoint (if configured).');
+    });
+
+    // send order via email fallback
+    document.getElementById('emailBtn').addEventListener('click',()=>{
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const location = document.getElementById('custLocation').value.trim();
+      const cart = loadCart(); if(!cart.length){alert('Cart is empty');return}
+      if(!name || !phone || !location){alert('Please enter your name, phone and location');return}
+      const subtotal = cart.reduce((s,i)=>s + (i.price||0)*i.qty,0);
+      let body = `New order from ${name}
+Phone: ${phone}
+Location: ${location}
+
+Items:
+`;
+      cart.forEach(i=>{body += `- ${i.title} x ${i.qty} ${i.price? '(' + (i.price*i.qty).toLocaleString() + ')': ''}
+`});
+      body += `
+Subtotal: ₦${subtotal.toLocaleString()}
+
+Please transfer to one of the accounts:
+1) Nwaeze Oluchi George - Access Bank - 0037680780
+2) Nwaeze Oluchi George - Moniepoint - 8256457408
+
+Send confirmation on WhatsApp.`;
+      const mailto = `mailto:vikhomes2@gmail.com?subject=New order from ${encodeURIComponent(name)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      // save order locally as well
+      const orders = JSON.parse(localStorage.getItem('vh_orders')||'[]');
+      orders.push({id:'ord_'+Date.now(),name,phone,location,cart,subtotal,date:new Date().toISOString(),via:'email'});
+      localStorage.setItem('vh_orders',JSON.stringify(orders));
+      localStorage.removeItem('vh_cart');refreshCartIndicator();cartModal.classList.remove('open');
+      alert('Email client opened. Please send the email to complete the order.');
+    });
+
+    /* ----------------- Admin: view local orders and stats ----------------- */
+    document.getElementById('adminLink').addEventListener('click',()=>{
+      const pass = prompt('Enter admin password');
+      if(pass !== 'vikadmin2025'){alert('Wrong password');return} // change password here
+      const orders = JSON.parse(localStorage.getItem('vh_orders')||'[]');
+      const stats = JSON.parse(localStorage.getItem('vh_stats')||'{}');
+      const w = window.open('','_blank');
+      w.document.write('<h2>Vik Homes — Admin (Local)</h2>');
+      w.document.write('<p><strong>Visits:</strong> '+(stats.visits||0)+' | <strong>Page loaded on this browser</strong></p>');
+      w.document.write('<h3>Product clicks and adds</h3>');
+      w.document.write('<ul>');
+      for(const k in stats){
+        if(k.startsWith('prod_click_')||k.startsWith('add_cart_')){
+          w.document.write('<li>'+k+': '+stats[k]+'</li>');
+        }
+      }
+      w.document.write('</ul>');
+      w.document.write('<h3>Orders (local)</h3>');
+      if(!orders.length){w.document.write('<p>No orders saved locally.</p>');return}
+      orders.reverse().forEach(o=>{
+        w.document.write('<div style="border-bottom:1px solid #eee;padding:8px;margin-bottom:6px">');
+        w.document.write('<strong>Order ID:</strong> '+o.id+'<br>');
+        w.document.write('<strong>Date:</strong> '+o.date+'<br>');
+        w.document.write('<strong>Name:</strong> '+o.name+'<br>');
+        w.document.write('<strong>Phone:</strong> '+o.phone+'<br>');
+        w.document.write('<strong>Location:</strong> '+o.location+'<br>');
+        w.document.write('<strong>Subtotal:</strong> ₦'+(o.subtotal||0).toLocaleString()+'<br>');
+        w.document.write('<strong>Items:</strong><ul>');
+        o.cart.forEach(i=>{w.document.write('<li>'+i.title+' x '+i.qty+'</li>')});
+        w.document.write('</ul></div>');
+      });
+    });
+
+    // small helpers: placeholder image creation
+    (function(){
+      const imgs = document.querySelectorAll('img');
+      imgs.forEach(img=>{img.onerror = function(){this.src='data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#e6eef4"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9aaec0" font-family="Arial" font-size="20">Replace with product image</text></svg>')}})
+    })();
+
+    // owner console notes
+    console.log('Owner notes: To change logo replace logo.png in your repo. To add product images, upload files to your repo and update PRODUCTS.images array. To receive serverless order posts, set SERVERLESS_ENDPOINT to your webhook URL (Formspree / Zapier / Make). Change admin password in the code (search vikadmin2025).');
+
+  </script>
+</body>
+</html>
