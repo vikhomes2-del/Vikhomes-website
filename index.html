@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vik Homes and Furniture</title>
+  <meta name="description" content="Vik Homes and Furniture - Wholesale MDF boards, marine plywood, and furniture accessories in Abuja." />
+  <style>
+    :root{--blue:#3f86b0;--brown:#8b5a2b;--muted:#f6f8fb;--card:#ffffff;--muted-text:#6b7280}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:var(--muted);color:#222;-webkit-font-smoothing:antialiased}
+
+    /* Header / Banner */
+    header{background:linear-gradient(180deg,var(--blue),#2f6f94);color:#fff;padding:28px 16px;text-align:center;position:relative;overflow:hidden}
+    header .logo{width:110px;height:auto;display:block;margin:0 auto;border-radius:12px;box-shadow:0 8px 24px rgba(15,40,60,0.18)}
+    header h1{margin:10px 0 4px;font-size:20px;letter-spacing:0.4px}
+    header .tag{font-size:13px;opacity:0.95}
+    header .shortdesc{font-size:13px;opacity:0.9;margin-top:8px;max-width:760px;margin-left:auto;margin-right:auto}
+    header::after{content:'';position:absolute;left:-10%;right:-10%;bottom:-30%;height:260px;background:radial-gradient(circle at 10% 40%, rgba(255,255,255,0.06), transparent 10%), radial-gradient(circle at 90% 50%, rgba(255,255,255,0.04), transparent 10%);transform:rotate(8deg)}
+
+    nav{display:flex;gap:8px;overflow:auto;padding:10px;background:#eef5fb}
+    nav a{flex:1;text-align:center;padding:10px 8px;text-decoration:none;color:var(--blue);font-weight:700;border-radius:10px}
+    nav a:hover{background:#e6f2fb}
+
+    main{padding:14px;max-width:1100px;margin:0 auto}
+
+    /* Product grid */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 8px 22px rgba(20,30,50,0.06);transition:transform .22s ease,box-shadow .22s ease}
+    .card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(20,30,50,0.08)}
+    .thumb{width:100%;height:150px;border-radius:10px;object-fit:cover;background:#f2f6fa}
+    .title{font-weight:700;margin-top:8px;font-size:15px}
+    .desc{font-size:13px;color:var(--muted-text);margin-top:6px}
+    .price{font-weight:800;margin-top:8px;color:var(--brown)}
+
+    .card .actions{display:flex;gap:8px;align-items:center;margin-top:10px}
+    .qty{width:70px;padding:8px;border-radius:8px;border:1px solid #e6eef6}
+    .btn{background:var(--blue);color:white;padding:8px 10px;border-radius:10px;border:none;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid #ddd;color:#333}
+
+    /* cart floating button */
+    .cart-floating{position:fixed;right:18px;bottom:100px;background:var(--brown);color:#fff;padding:12px 14px;border-radius:50px;box-shadow:0 12px 30px rgba(0,0,0,0.2);z-index:60;display:flex;gap:10px;align-items:center}
+    .cart-count{background:rgba(255,255,255,0.12);padding:6px 8px;border-radius:40px;font-weight:700}
+
+    /* whatsapp float */
+    .wa-float{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;padding:12px 14px;border-radius:50px;z-index:70;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,0.18)}
+
+    /* Cart drawer */
+    .cart-drawer{position:fixed;right:0;top:0;height:100vh;width:420px;max-width:95%;background:var(--card);box-shadow:-20px 0 40px rgba(10,20,40,0.12);z-index:80;transform:translateX(110%);transition:transform .33s cubic-bezier(.2,.9,.3,1);display:flex;flex-direction:column}
+    .cart-drawer.open{transform:translateX(0)}
+    .cart-head{padding:18px;border-bottom:1px solid #f3f5f7;display:flex;justify-content:space-between;align-items:center}
+    .cart-body{padding:12px;overflow:auto;flex:1}
+    .cart-item{display:flex;gap:12px;padding:12px;border-radius:10px;border:1px solid #f3f5f7;margin-bottom:10px;align-items:center}
+    .cart-item img{width:72px;height:56px;object-fit:cover;border-radius:8px}
+    .cart-item .meta{flex:1}
+    .cart-item .meta .name{font-weight:700}
+    .cart-item .meta .small{font-size:13px;color:var(--muted-text)}
+    .qty-control{display:flex;align-items:center;gap:6px}
+    .qty-btn{background:#f3f6fa;border-radius:6px;padding:6px 8px;border:1px solid #e6eef6;cursor:pointer}
+    .remove-btn{background:transparent;border:0;color:#d23a3a;cursor:pointer}
+
+    .cart-footer{padding:12px;border-top:1px solid #f3f5f7}
+    .total-row{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px}
+    .checkout-actions{display:flex;gap:8px;margin-top:10px}
+
+    /* checkout modal */
+    .modal-backdrop{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:90}
+    .modal-backdrop.open{display:flex}
+    .modal-panel{background:#fff;padding:16px;border-radius:12px;width:94%;max-width:520px}
+
+    /* small screens tweaks */
+    @media(max-width:720px){
+      .cart-drawer{width:100%}
+      .cart-floating{bottom:140px}
+    }
+
+    /* subtle entrance */
+    .fade-up{animation:fadeUp .5s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  </style>
+</head>
+<body>
+  <header>
+    <!-- easy logo replacement: overwrite file "logo.png" in your repo to change anytime -->
+    <img src="logo.png" alt="Vik Homes logo" class="logo" id="siteLogo" onerror="this.style.display='none'" />
+    <h1>Vik Homes &amp; Furniture</h1>
+    <div class="tag">Premium and Quality</div>
+    <div class="shortdesc">Your trusted supplier for MDF boards and furniture materials.</div>
+  </header>
+
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#prices">Updated Prices</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section id="products" style="margin-top:18px">
+      <h2 style="margin-bottom:12px">Products</h2>
+      <div class="grid" id="productGrid"></div>
+    </section>
+
+    <section id="prices" style="margin-top:20px">
+      <h2>Updated Prices</h2>
+      <div style="margin-top:10px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 8px 20px rgba(10,20,40,0.04)">
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr style="text-align:left"><th>Product</th><th style="text-align:right">Price (₦)</th></tr></thead>
+          <tbody id="pricesTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top:20px">
+      <h2>About Us</h2>
+      <div style="background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(10,20,40,0.04)">
+        <p>Vik Homes and Furniture was founded to make it simpler for furniture craftsmen and contractors in Nigeria to access reliable, high-quality materials online. After encountering fake MDF boards firsthand, our team committed to supplying only genuine, premium materials at honest prices. We deliver the right products, the right way—every time.</p>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:20px">
+      <h2>Contact</h2>
+      <div style="background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(10,20,40,0.04)">
+        <p><strong>Call:</strong> <a href="tel:09164239619">09164239619</a></p>
+        <p><strong>WhatsApp:</strong> <a href="https://wa.me/2349164239619" target="_blank">Chat on WhatsApp</a></p>
+        <p><strong>Email:</strong> <a href="mailto:vikhomes2@gmail.com">vikhomes2@gmail.com</a></p>
+        <p><strong>Address:</strong> Timber Shade, Gidan Mangoro, Abuja</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="cart-floating" id="cartFloating" role="button" aria-label="Open cart">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 2px 6px rgba(0,0,0,0.12))"><path d="M6 6h15l-1.5 9h-12L4 2H2" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div style="font-weight:700">Cart</div>
+    <div class="cart-count" id="cartCount">0</div>
+  </div>
+  <a class="wa-float" href="https://wa.me/2349164239619" target="_blank">WhatsApp</a>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-head">
+      <div style="font-weight:800">Your Cart</div>
+      <div><button class="btn secondary" id="clearCartBtn">Clear</button> <button class="btn" id="closeCartBtn">Close</button></div>
+    </div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-footer">
+      <div class="total-row"><div>Total</div><div id="cartTotal">₦0</div></div>
+      <div class="checkout-actions">
+        <button class="btn" id="checkoutBtn">Checkout</button>
+        <button class="btn secondary" id="saveCartBtn">Save for later</button>
+      </div>
+      <div style="margin-top:10px;font-size:13px;color:var(--muted-text)">
+        <p>Bank accounts for transfer:</p>
+        <ul>
+          <li><strong>Name:</strong> Nwaeze Oluchi George — <strong>Access Bank</strong> — <strong>0037680780</strong></li>
+          <li><strong>Name:</strong> Nwaeze Oluchi George — <strong>Moniepoint</strong> — <strong>8256457408</strong></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-panel fade-up">
+      <h3>Complete your order</h3>
+      <div style="margin-top:8px">
+        <label>Full name</label>
+        <input id="custName" placeholder="e.g. John Doe" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eef4fb;margin-top:6px" />
+        <label style="margin-top:8px">Phone number</label>
+        <input id="custPhone" placeholder="e.g. 0916..." style="width:100%;padding:10px;border-radius:8px;border:1px solid #eef4fb;margin-top:6px" />
+        <label style="margin-top:8px">Delivery address</label>
+        <textarea id="custLocation" rows="2" placeholder="Area, city, landmark" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eef4fb;margin-top:6px"></textarea>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn secondary" id="cancelCheckout">Cancel</button>
+        <button class="btn" id="confirmCheckout">Send order (WhatsApp)</button>
+      </div>
+    </div>
+  </div>
+
+  <footer style="padding:18px;text-align:center;color:var(--muted-text)">
+    <div>Looking for something else? <a href="https://wa.me/2349164239619" target="_blank">Message us on WhatsApp</a></div>
+    <div style="margin-top:8px">© Vik Homes and Furniture</div>
+    <div style="margin-top:6px;font-size:12px"><a href="#" id="adminLink">Admin</a></div>
+  </footer>
+
+  <script>
+    // ---------- CONFIG ----------
+    const OWNER_WH = '2349164239619'; // owner WhatsApp number
+    const SERVERLESS_ENDPOINT = ''; // Set your webhook URL here (Formspree, Zapier, Make)
+    const ADMIN_PASS = 'vikadmin2025'; // change to a secure password
+
+    // ---------- PRODUCTS (edit prices/images here) ----------
+    const PRODUCTS = [
+      {id:'mdf_15mm', title:'MDF board (4x8ft, 15mm)', price:26000, desc:'Smooth coloured 4x8ft sheet, 15mm thick.', images:['mdf1.jpg','mdf2.jpg']},
+      {id:'marine_plywood', title:'Marine Plywood (4x8ft)', price:22000, desc:'Durable water resistant 4x8ft sheet for construction.', images:['marine1.jpg']},
+      {id:'fluted_panel', title:'Fluted Panel', price:6500, desc:'Narrow decorative panel for interior design.', images:['fluted1.jpg','fluted2.jpg']},
+      {id:'nails_bag', title:'Nails (47lbs bag)', price:34000, desc:'Bags of nails in mixed sizes, 47lbs per bag.', images:[]},
+      {id:'screws_bag', title:'Screws (50-54lbs bag)', price:0, desc:'Bags of screws - contact us for price.', images:[]},
+      {id:'edgetape', title:'Edgetape (roll)', price:18000, desc:'Plastic tape used to cover MDF edges.', images:[]},
+      {id:'gum_15kg', title:'Gum Adhesive (15kg)', price:60000, desc:'Adhesive for edgetape and boards.', images:[]},
+      {id:'gum_3kg', title:'Gum Adhesive (3kg)', price:12000, desc:'Smaller adhesive pack for small jobs.', images:[]},
+      {id:'fluted_gum', title:'Fluted Panel Gum', price:3000, desc:'Adhesive for fluted panels.', images:[]},
+      {id:'handles', title:'Handles', price:0, desc:'Various styles and sizes; ₦500 - ₦20,000', images:[]},
+      {id:'backcover_quarter', title:'1/4 MDF / Backcover', price:0, desc:'A lighter one-side coloured MDF used to cover the back of wardrobes and cabinets.', images:[]},
+      {id:'cabinet_hinges', title:'Cabinet Hinges', price:0, desc:'Hinges used for opening doors and cabinets.', images:[]}
+    ];
+
+    // ---------- small helpers ----------
+    function money(n){return n? '₦'+n.toLocaleString(): 'Contact'}
+
+    // ---------- render product grid & prices ----------
+    const productGrid = document.getElementById('productGrid');
+    const pricesTable = document.getElementById('pricesTable');
+    PRODUCTS.forEach(p=>{
+      const card = document.createElement('div'); card.className='card fade-up';
+      const img = document.createElement('img'); img.className='thumb'; img.src = p.images && p.images.length? p.images[0] : 'placeholder.png'; img.alt = p.title;
+      img.onclick = ()=>openGallery(p);
+      card.appendChild(img);
+      const t = document.createElement('div'); t.className='title'; t.textContent = p.title; card.appendChild(t);
+      const d = document.createElement('div'); d.className='desc'; d.textContent = p.desc; card.appendChild(d);
+      const pr = document.createElement('div'); pr.className='price'; pr.textContent = money(p.price); card.appendChild(pr);
+
+      const actions = document.createElement('div'); actions.className='actions';
+      const qty = document.createElement('input'); qty.type='number'; qty.min=1; qty.value=1; qty.className='qty';
+      const add = document.createElement('button'); add.className='btn'; add.textContent='Add to cart';
+      add.onclick = ()=>{ addToCart(p.id, parseInt(qty.value||1)); }
+      actions.appendChild(qty); actions.appendChild(add);
+      card.appendChild(actions);
+      productGrid.appendChild(card);
+
+      // prices table
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td'); td1.textContent = p.title; const td2 = document.createElement('td'); td2.style.textAlign='right'; td2.textContent = money(p.price);
+      tr.appendChild(td1); tr.appendChild(td2); pricesTable.appendChild(tr);
+    });
+
+    // ---------- cart logic (localStorage) ----------
+    function loadCart(){try{return JSON.parse(localStorage.getItem('vh_cart')||'[]')}catch(e){return []}}
+    function saveCart(c){localStorage.setItem('vh_cart', JSON.stringify(c))}
+    function cartCount(){return loadCart().reduce((s,i)=>s+i.qty,0)}
+
+    // open/close drawer
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartCountNode = document.getElementById('cartCount');
+    const cartFloating = document.getElementById('cartFloating');
+
+    function refreshCartUI(){ cartCountNode.textContent = cartCount(); renderCartItems(); }
+    cartFloating.addEventListener('click', ()=>{ cartDrawer.classList.add('open'); });
+    document.getElementById('closeCartBtn').addEventListener('click', ()=>{ cartDrawer.classList.remove('open'); });
+    document.getElementById('clearCartBtn').addEventListener('click', ()=>{ if(confirm('Clear cart?')){ localStorage.removeItem('vh_cart'); refreshCartUI(); } });
+
+    function addToCart(id, qty){
+      const prod = PRODUCTS.find(p=>p.id===id); if(!prod) return;
+      const cart = loadCart();
+      const existing = cart.find(i=>i.id===id);
+      if(existing){ existing.qty += qty; } else { cart.push({id:prod.id, title:prod.title, price:prod.price||0, qty:qty, img: (prod.images && prod.images[0]) || ''}); }
+      saveCart(cart); refreshCartUI(); animateAdd();
+    }
+
+    function animateAdd(){ cartFloating.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:300}); }
+
+    function renderCartItems(){
+      const body = document.getElementById('cartBody'); body.innerHTML='';
+      const cart = loadCart(); if(!cart.length){ body.innerHTML='<div style="padding:14px;color:#6b7280">Your cart is empty</div>'; document.getElementById('cartTotal').textContent='₦0'; return }
+      let total=0;
+      cart.forEach((item, idx)=>{
+        total += (item.price||0)*item.qty;
+        const row = document.createElement('div'); row.className='cart-item fade-up';
+        const img = document.createElement('img'); img.src = item.img || 'placeholder.png'; row.appendChild(img);
+        const meta = document.createElement('div'); meta.className='meta';
+        const name = document.createElement('div'); name.className='name'; name.textContent = item.title; meta.appendChild(name);
+        const small = document.createElement('div'); small.className='small'; small.textContent = item.price? money(item.price) : 'Contact for price'; meta.appendChild(small);
+        row.appendChild(meta);
+        const controls = document.createElement('div'); controls.style.display='flex'; controls.style.flexDirection='column'; controls.style.alignItems='flex-end';
+        const qtyc = document.createElement('div'); qtyc.className='qty-control';
+        const less = document.createElement('button'); less.className='qty-btn'; less.textContent='-'; less.onclick = ()=>{ changeQty(idx, -1); };
+        const qn = document.createElement('div'); qn.textContent = item.qty; qn.style.minWidth='28px'; qn.style.textAlign='center';
+        const more = document.createElement('button'); more.className='qty-btn'; more.textContent='+'; more.onclick = ()=>{ changeQty(idx, +1); };
+        qtyc.appendChild(less); qtyc.appendChild(qn); qtyc.appendChild(more);
+        const remove = document.createElement('button'); remove.className='remove-btn'; remove.textContent='Remove'; remove.onclick = ()=>{ removeItem(idx); };
+        controls.appendChild(qtyc); controls.appendChild(remove);
+        row.appendChild(controls);
+        body.appendChild(row);
+      });
+      document.getElementById('cartTotal').textContent = money(total);
+    }
+
+    function changeQty(index, delta){ const cart = loadCart(); if(!cart[index]) return; cart[index].qty += delta; if(cart[index].qty <= 0) cart.splice(index,1); saveCart(cart); renderCartItems(); cartCountNode.textContent = cartCount(); }
+    function removeItem(index){ const cart = loadCart(); cart.splice(index,1); saveCart(cart); renderCartItems(); cartCountNode.textContent = cartCount(); }
+
+    document.getElementById('saveCartBtn').addEventListener('click', ()=>{ alert('Cart saved locally — customers can return later on this device to complete it.'); });
+
+    // checkout flow
+    const modal = document.getElementById('modalBackdrop');
+    document.getElementById('checkoutBtn').addEventListener('click', ()=>{ modal.classList.add('open'); });
+    document.getElementById('cancelCheckout').addEventListener('click', ()=>{ modal.classList.remove('open'); });
+
+    document.getElementById('confirmCheckout').addEventListener('click', async ()=>{
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const location = document.getElementById('custLocation').value.trim();
+      const cart = loadCart(); if(!cart.length){ alert('Cart is empty'); return; }
+      if(!name || !phone || !location){ alert('Please complete your details'); return; }
+
+      const subtotal = cart.reduce((s,i)=>s + (i.price||0)*i.qty,0);
+
+      let msg = `New order from ${name}%0APhone: ${phone}%0ALocation: ${location}%0A%0AItems:%0A`;
+      cart.forEach(i=>{ msg += `- ${i.title} x ${i.qty} ${i.price? '(' + (i.price*i.qty).toLocaleString() + ')': ''}%0A` });
+      msg += `%0ASubtotal: ₦${subtotal.toLocaleString()}%0A%0AAccounts:%0A1) Nwaeze Oluchi George - Access Bank - 0037680780%0A2) Nwaeze Oluchi George - Moniepoint - 8256457408%0A`;
+
+      window.open(`https://wa.me/${OWNER_WH}?text=${msg}`,'_blank');
+
+      if(SERVERLESS_ENDPOINT){
+        try{
+          await fetch(SERVERLESS_ENDPOINT, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:'vikhomes_site',date:new Date().toISOString(),customer:{name,phone,location},items:cart,subtotal})});
+        }catch(e){console.warn('Serverless post failed',e)}
+      }
+
+      const orders = JSON.parse(localStorage.getItem('vh_orders')||'[]'); orders.push({id:'ord_'+Date.now(),name,phone,location,cart,subtotal,date:new Date().toISOString()}); localStorage.setItem('vh_orders',JSON.stringify(orders));
+
+      localStorage.removeItem('vh_cart'); renderCartItems(); cartCountNode.textContent = cartCount(); modal.classList.remove('open'); cartDrawer.classList.remove('open'); alert('WhatsApp opened — please send the message to complete the order.');
+    });
+
+    // gallery open in new tab
+    function openGallery(p){ let html = `<h3>${p.title}</h3>`; if(p.images && p.images.length){ p.images.forEach(i=>{ html += `<img src="${i}" style="max-width:100%;display:block;margin-bottom:8px;border-radius:8px"/>` }) } else { html += '<div style="padding:20px;background:#f7fbff;border-radius:8px">No images uploaded. Add image files to your repo and update PRODUCTS array.</div>' } const w = window.open('','_blank'); w.document.write(html); }
+
+    // admin view (local orders + stats)
+    document.getElementById('adminLink').addEventListener('click', ()=>{
+      const p = prompt('Enter admin password'); if(p !== ADMIN_PASS){ alert('Incorrect password'); return }
+      const orders = JSON.parse(localStorage.getItem('vh_orders')||'[]'); const stats = JSON.parse(localStorage.getItem('vh_stats')||'{}');
+      const w = window.open('','_blank'); w.document.write('<h2>Vik Homes — Admin (Local)</h2>'); w.document.write('<h3>Orders</h3>');
+      if(!orders.length){ w.document.write('<p>No orders yet.</p>') } else { orders.reverse().forEach(o=>{ w.document.write(`<div style="border-bottom:1px solid #eee;padding:8px;margin-bottom:6px"><strong>ID:</strong>${o.id}<br><strong>Date:</strong>${o.date}<br><strong>Name:</strong>${o.name}<br><strong>Phone:</strong>${o.phone}<br><strong>Location:</strong>${o.location}<br><strong>Subtotal:</strong>₦${(o.subtotal||0).toLocaleString()}<br><strong>Items:</strong><ul>${o.cart.map(i=>`<li>${i.title} x ${i.qty}</li>`).join('')}</ul></div>` ) }) }
+    });
+
+    // simple stats
+    (function(){ try{ const s = JSON.parse(localStorage.getItem('vh_stats')||'{}'); s.visits = (s.visits||0) + 1; localStorage.setItem('vh_stats',JSON.stringify(s)); }catch(e){} })();
+
+    // initial render
+    (function(){ renderCartItems(); cartCountNode.textContent = cartCount(); })();
+
+    // placeholder image handler
+    window.addEventListener('error', (e)=>{ if(e.target && e.target.tagName === 'IMG'){ e.target.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#eef6fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9bb3c9" font-family="Arial" font-size="18">Replace with product image</text></svg>') } }, true);
+
+    console.log('Owner tips: To change logo replace logo.png. To update product images upload files and edit PRODUCTS array. To enable serverless order capture set SERVERLESS_ENDPOINT to your webhook URL (Formspree, Zapier, Make). To change admin password edit ADMIN_PASS variable in the code.');
+  </script>
+</body>
+</html>
