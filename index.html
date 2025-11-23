@@ -122,43 +122,6 @@
   font-size: 1rem;
   border-radius: 10px;
 }
-
-.calc-result {
-  margin-top: 18px;
-  font-size: 1.1rem;
-}
-
-.calc-result .success {
-  color: #0a8a3a;
-  font-weight: 600;
-}
-
-.calc-result .error {
-  color: #d10000;
-  font-weight: 600;
-                 }
-    .order-details-section {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 10px;
-  margin-top: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.order-details-section input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-#sendToWhatsApp {
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-}
-
   </style>
   <script type="application/ld+json">
   {
@@ -226,30 +189,7 @@
       </div>
     </section>
     <!-- ✅ DELIVERY PRICE CALCULATOR -->
-<section id="delivery-calculator" class="calc-section">
-  <h2>Delivery Price Calculator</h2>
-  <p class="calc-note">Select your delivery zone to estimate your delivery cost.</p>
-
-  <label for="deliveryZone">Delivery Zone</label>
-  <select id="deliveryZone">
-    <option value="">-- Select Zone --</option>
-    <option value="13000">Gidan mangoro, kurudu, orozo, army estate(₦13,000)</option>
-    <option value="23000">mararaba, jikwoyi, karu, nyanya (₦23,000)</option>
-    <option value="33000">asokoro, gusape, lokogoma, apo (₦33,000)</option>
-    <option value="39000">garki, central area, wuse, maitama (₦39,000)</option>
-    <option value="46000">wuse 2, jabi, gwarimpa, utako - (₦46,000)</option>
-    <option value="59000">lugbe, airport road, kubwa, dei dei(₦59,000)</option>
-  </select>
-
-  <!-- This input is ONLY used if the cart does not auto-fill -->
-  <div id="manualSheetsWrapper" class="manual-input">
-    <label for="sheetCount">Number of Sheets</label>
-    <input type="number" id="sheetCount" min="1" placeholder="Enter total sheets">
-  </div>
-
-  <button id="calculateDelivery" class="btn-primary">Calculate Delivery</button>
-
-  <div id="deliveryResult" class="calc-result"></div>
+<sec
 </section>
   </main>
 
@@ -268,18 +208,6 @@
     <div class="cart-body" id="cartBody"></div>
     <div class="cart-footer">
       <div class="total-row"><div>Total</div><div id="cartTotal">₦0</div></div>
-      <div class="order-details-section">
-  <h3>Complete Your Order</h3>
-
-  <label>Your Name:</label>
-  <input type="text" id="customerName" placeholder="Enter your name">
-
-  <label>Delivery Location:</label>
-  <input type="text" id="customerLocation" placeholder="e.g. Karu, Abuja">
-
-  <button id="sendToWhatsApp" class="btn-primary">
-    Send Order on WhatsApp
-  </button>
       </div>
       <div class="checkout-actions">
         <button class="btn" id="checkoutBtn">Checkout</button>
@@ -478,62 +406,6 @@
     window.addEventListener('error', (e)=>{ if(e.target && e.target.tagName === 'IMG'){ e.target.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#eef6fb"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9bb3c9" font-family="Arial" font-size="18">Replace with product image</text></svg>') } }, true);
 
     console.log('Owner tips: To change logo replace logo.png. To update product images upload files and edit PRODUCTS array. To enable serverless order capture set SERVERLESS_ENDPOINT to your webhook URL (Formspree, Zapier, Make). To change admin password edit ADMIN_PASS variable in the code.');
-  </script>
-  <script>
-  document.getElementById("calculateDelivery").addEventListener("click", function () {
-    const zonePrice = parseInt(document.getElementById("deliveryZone").value);
-    let sheetCount;
-
-    // ✅ If your cart already has sheet total saved as window.totalSheets
-    if (window.totalSheets) {
-      sheetCount = window.totalSheets;
-    } else {
-      sheetCount = parseInt(document.getElementById("sheetCount").value);
-    }
-
-    if (!zonePrice || !sheetCount) {
-      document.getElementById("deliveryResult").innerHTML =
-        "<p class='error'>Please select a zone and enter sheet quantity.</p>";
-      return;
-    }
-
-    let finalPrice = sheetCount <= 10 ? zonePrice / 2 : zonePrice;
-
-    document.getElementById("deliveryResult").innerHTML = `
-      <p class="success">
-        ✅ Delivery Cost: <strong>₦${finalPrice.toLocaleString()}</strong><br>
-        (${sheetCount <= 10 ? "50% discount applied for small order" : "Standard truck rate"})
-      </p>
-    `;
-  });
-    document.getElementById("sendToWhatsApp").addEventListener("click", function () {
-  
-  const name = document.getElementById("customerName").value;
-  const location = document.getElementById("customerLocation").value;
-
-  if (!name || !location) {
-    alert("Please enter your name and delivery location.");
-    return;
-  }
-
-  const waNumber = "2349164239619"; // YOUR WHATSAPP NUMBER
-
-  // Pull data from existing cart + delivery logic
-  let message = `New Order from Vik Homes Website:%0A%0AItems:%0A`;
-
-  cart.forEach(item => {
-    message += `- ${item.name} x ${item.quantity}%0A`;
-  });
-
-  message += `%0ATotal Sheets: ${totalSheets}%0A`;
-  message += `Delivery Zone: ${selectedZone.name}%0A`;
-  message += `Delivery Price: ₦${finalDeliveryPrice.toLocaleString()}%0A%0A`;
-
-  message += `Customer Name: ${name}%0A`;
-  message += `Location: ${location}%0A`;
-
-  window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
-});
   </script>
   <p style="text-align:center; margin-top:20px; font-size:14px;">
   ✅ <a href="mdf-vs-marine.html" style="color:#d4af37; text-decoration:none;">
