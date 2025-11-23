@@ -485,6 +485,34 @@
       </p>
     `;
   });
+    document.getElementById("sendToWhatsApp").addEventListener("click", function () {
+  
+  const name = document.getElementById("customerName").value;
+  const location = document.getElementById("customerLocation").value;
+
+  if (!name || !location) {
+    alert("Please enter your name and delivery location.");
+    return;
+  }
+
+  const waNumber = "2349164239619"; // YOUR WHATSAPP NUMBER
+
+  // Pull data from existing cart + delivery logic
+  let message = `New Order from Vik Homes Website:%0A%0AItems:%0A`;
+
+  cart.forEach(item => {
+    message += `- ${item.name} x ${item.quantity}%0A`;
+  });
+
+  message += `%0ATotal Sheets: ${totalSheets}%0A`;
+  message += `Delivery Zone: ${selectedZone.name}%0A`;
+  message += `Delivery Price: ₦${finalDeliveryPrice.toLocaleString()}%0A%0A`;
+
+  message += `Customer Name: ${name}%0A`;
+  message += `Location: ${location}%0A`;
+
+  window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
+});
   </script>
   <p style="text-align:center; margin-top:20px; font-size:14px;">
   ✅ <a href="mdf-vs-marine.html" style="color:#d4af37; text-decoration:none;">
