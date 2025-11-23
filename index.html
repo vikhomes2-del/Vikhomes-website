@@ -395,6 +395,34 @@
 
     console.log('Owner tips: To change logo replace logo.png. To update product images upload files and edit PRODUCTS array. To enable serverless order capture set SERVERLESS_ENDPOINT to your webhook URL (Formspree, Zapier, Make). To change admin password edit ADMIN_PASS variable in the code.');
   </script>
+  <script>
+  document.getElementById("calculateDelivery").addEventListener("click", function () {
+    const zonePrice = parseInt(document.getElementById("deliveryZone").value);
+    let sheetCount;
+
+    // ✅ If your cart already has sheet total saved as window.totalSheets
+    if (window.totalSheets) {
+      sheetCount = window.totalSheets;
+    } else {
+      sheetCount = parseInt(document.getElementById("sheetCount").value);
+    }
+
+    if (!zonePrice || !sheetCount) {
+      document.getElementById("deliveryResult").innerHTML =
+        "<p class='error'>Please select a zone and enter sheet quantity.</p>";
+      return;
+    }
+
+    let finalPrice = sheetCount <= 10 ? zonePrice / 2 : zonePrice;
+
+    document.getElementById("deliveryResult").innerHTML = `
+      <p class="success">
+        ✅ Delivery Cost: <strong>₦${finalPrice.toLocaleString()}</strong><br>
+        (${sheetCount <= 10 ? "50% discount applied for small order" : "Standard truck rate"})
+      </p>
+    `;
+  });
+  </script>
   <p style="text-align:center; margin-top:20px; font-size:14px;">
   ✅ <a href="mdf-vs-marine.html" style="color:#d4af37; text-decoration:none;">
     Learn the Difference Between MDF and Marine Plywood
