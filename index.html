@@ -154,6 +154,32 @@
         <p><strong>Address:</strong> Timber Shade, Gidan Mangoro, Abuja</p>
       </div>
     </section>
+    <!-- ✅ DELIVERY PRICE CALCULATOR -->
+<section id="delivery-calculator" class="calc-section">
+  <h2>Delivery Price Calculator</h2>
+  <p class="calc-note">Select your delivery zone to estimate your delivery cost.</p>
+
+  <label for="deliveryZone">Delivery Zone</label>
+  <select id="deliveryZone">
+    <option value="">-- Select Zone --</option>
+    <option value="13000">Zone 1 – Local Area (₦13,000)</option>
+    <option value="23000">Zone 2 – Near Outskirts (₦23,000)</option>
+    <option value="33000">Zone 3 – City Fringe (₦33,000)</option>
+    <option value="39000">Zone 4 – Central Abuja (₦39,000)</option>
+    <option value="46000">Zone 5 – Far North/West (₦46,000)</option>
+    <option value="59000">Zone 6 – Long Distance (₦59,000)</option>
+  </select>
+
+  <!-- This input is ONLY used if the cart does not auto-fill -->
+  <div id="manualSheetsWrapper" class="manual-input">
+    <label for="sheetCount">Number of Sheets</label>
+    <input type="number" id="sheetCount" min="1" placeholder="Enter total sheets">
+  </div>
+
+  <button id="calculateDelivery" class="btn-primary">Calculate Delivery</button>
+
+  <div id="deliveryResult" class="calc-result"></div>
+</section>
   </main>
 
   <div class="cart-floating" id="cartFloating" role="button" aria-label="Open cart">
